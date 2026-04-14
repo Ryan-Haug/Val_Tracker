@@ -1,7 +1,7 @@
 :root {
     /* background */
     --bg-main: #0f1115;
-    --bg-card: #171b22;
+    --bg-card: #171b22; 
     --bg-inner: #10141a;
 
     /* borders */
@@ -18,13 +18,8 @@
 
     /* results */
     --win: #57d18b;
-    --loss: #ff7b7b;
+    --loss: #fa5f5f;
     --neutral: #d6dbe4;
-
-    /* result backgrounds */
-    --win-bg: rgba(87, 209, 139, 0.12);
-    --loss-bg: rgba(255, 123, 123, 0.12);
-    --neutral-bg: rgba(214, 219, 228, 0.12);
 
     /* borders (state) */
     --win-border: rgba(70, 180, 120, 0.45);
@@ -38,7 +33,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1.1em;
 
-    width: 80%;
+    width: 90%;
     justify-self: center;
 }
 
@@ -88,8 +83,100 @@ section h2 {
     justify-content: space-around;
 }
 
+/* Cards ===================== */
+
+.cardCont {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
+    gap: 1em;
+}
+
 .card {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    max-width: 325px;
+
     background-color: var(--bg-inner);
-    width: 20%;
-    height: 15em;
+    border: var(--text-muted) solid 2px;
+    border-radius: 10px;
+    justify-self: center;
+
+    padding: 1em 2em;
+}
+
+.cardHeader p {
+    margin: 0;
+    color: var(--text-secondary);
+    margin-left: 5px;
+}
+.cardHeader h3 {
+    margin: 0;
+}
+
+.cardHeader div{
+    display: flex;
+    justify-content: space-between;
+}
+.cardHeader div p {
+    color: var(--text-primary);
+    margin-left: 0;
+}
+
+.cardBody {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.cardBody div {
+    background: var(--bg-card);
+    border: 1px solid var(--border-main);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.cardBody h5 {
+    margin: 0;
+    font-size: 0.75em;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.cardBody p {
+    margin: 4px 0 0 8px;
+    font-size: 1em;
+    color: var(--text-primary);
+    font-weight: 600;
+
+    /* prevent long match IDs from breaking layout */
+    word-break: break-word;
+    overflow: hidden;
+    height: 2em;
+
+}
+
+.win {
+    border-color: var(--win-border);
+    color: var(--win);
+}
+.win .cardHeader div p{
+    color: var(--win);
+}
+
+.win .cardBody div p{
+    color: var(--win);
+}
+
+.loss {
+    border-color: var(--loss-border);
+    color: var(--loss);
+}
+.loss .cardHeader div p{
+    color: var(--loss);
+}
+
+.loss .cardBody div p{
+    color: var(--loss);
 }
