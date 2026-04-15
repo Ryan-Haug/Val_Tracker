@@ -151,5 +151,102 @@ const testData = {
       "date_raw": 1775266637
     }
   ]
+};
+
+const gameTestData = {}
+
+let totalGain = 0;
+let totalLoss = 0;
+
+function init() {
+  loadGameData();
+  loadQuickStats();
 }
 
+// Load game data onto the page
+function loadGameData() {
+  if (testData.length == 0) return;
+
+  const cardContainer = document.querySelector('.cardCont');
+  cardContainer.innerHTML = ''; // Clear existing cards
+
+  testData.data.forEach((game) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    // Determine if win or loss based on MMR change
+    const resultClass = game.mmr_change_to_last_game > 0 ? 'win' : 'loss';
+    card.classList.add(resultClass);
+
+    // Create card HTML
+    card.innerHTML = `
+      <div class="cardHeader">
+        <div>
+          <h3>${game.map.name}</h3>
+          <p>${resultClass}</p>
+        </div>
+        <p style="font-size: .8em;">${game.date}</p>
+      </div>
+
+      <div class="cardBody">
+        <div>
+          <h5>Rank</h5>
+          <p>${game.currenttierpatched}</p>
+        </div>
+        <div>
+          <h5>Match Id</h5>
+          <p>${game.match_id}</p>
+        </div>
+        <div>
+          <h5>Total RR</h5>
+          <p>${game.elo}</p>
+        </div>
+        <div>
+          <h5>RR Change</h5>
+          <p>${game.mmr_change_to_last_game > 0 ? '+' : ''}${game.mmr_change_to_last_game}</p>
+        </div>
+      </div>
+    `;
+
+    if (game.mmr_change_to_last_game > 0) 
+      totalGain += game.mmr_change_to_last_game;
+    else 
+      totalLoss += Math.abs(game.mmr_change_to_last_game);
+
+    cardContainer.appendChild(card);
+  });
+}
+
+function loadQuickStats() {
+  const quickStatsDiv = document.querySelector('#quick div');
+  const totalGames = testData.data.length;
+  const wins = testData.data.filter(game => game.mmr_change_to_last_game > 0).length;
+  const winPercent = Math.round((wins / totalGames) * 100);
+  const avgGainLoss = totalGames > 0 ? Math.round((totalGain - totalLoss) / totalGames) : 0;
+
+  // Additional insights
+  const mapStats = {};
+  testData.data.forEach(game => {
+    const map = game.map.name;
+    if (!mapStats[map]) {
+      mapStats[map] = { games: 0, totalRR: 0, wins: 0 };
+    }
+    mapStats[map].games++;
+    mapStats[map].totalRR += game.mmr_change_to_last_game;
+    if (game.mmr_change_to_last_game > 0) mapStats[map].wins++;
+  });
+
+  const mostPlayedMap = Object.keys(mapStats).reduce((a, b) => mapStats[a].games > mapStats[b].games ? a : b);
+  const bestMap = Object.keys(mapStats).reduce((a, b) => (mapStats[a].totalRR / mapStats[a].games) > (mapStats[b].totalRR / mapStats[b].games) ? a : b);
+
+  // Recent form (last 3 games)
+  const recentGames = testData.data.slice(0, 3);
+
+  quickStatsDiv.innerHTML = `
+    <p>Rank: ${testData.data[0].currenttierpatched}</p>
+    <p>Total Games: ${totalGames}</p>
+    <p>Win Percent: ${winPercent}%</p>
+    <p>Average Change: ${avgGainLoss > 0 ? '+' : ''}${avgGainLoss}</p>`;
+}
+
+init();

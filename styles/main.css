@@ -11,6 +11,7 @@
     --text-primary: #f5f7fb;
     --text-secondary: #b7c0d1;
     --text-muted: #93a0b8;
+    --link: #00ccff;
 
     /* accents */
     --blue: #1f6feb;
@@ -79,8 +80,68 @@ section h2 {
 }
 
 #quick div{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
+}
+
+/* Login Form ===================== */
+
+#login {
+    background: var(--bg-card);
+    padding: 2em;
+    margin: 2em auto;
+    border-radius: 15px;
+    max-width: 400px;
+    text-align: center;
+}
+
+#login h1 {
+    margin-bottom: 0;
+    color: var(--text-primary);
+}
+
+#login hr {
+    border: 2px solid var(--blue-muted );
+    border-radius: 2px;
+    width: 200px;
+    margin-bottom: 2em;
+}
+
+#login form {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#login input {
+    padding: 12px;
+    border: 2px solid var(--border-main);
+    border-radius: 10px;
+    background: var(--bg-inner);
+    color: var(--text-primary);
+    font-size: 1em;
+}
+
+#login input::placeholder {
+    color: var(--text-muted);
+}
+
+#login input:focus {
+    outline: none;
+    border-color: var(--blue);
+}
+
+#login button {
+    margin-top: 1em;
+}
+
+#login p {
+    white-space: pre-line;
+}
+
+#login a {
+    color: var(--link);
 }
 
 /* Cards ===================== */
@@ -103,6 +164,11 @@ section h2 {
     justify-self: center;
 
     padding: 1em 2em;
+    transition: .2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
 }
 
 .cardHeader p {
