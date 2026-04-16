@@ -8,7 +8,7 @@ const doc = {
     }
 }
 
-const form= {
+const form = {
     "user": document.getElementById("userInp"),
     "tag": document.getElementById("tagInp"),
     "api": document.getElementById("ApiInp"),
@@ -71,6 +71,8 @@ function clearData(){
 }
 
 if (localStorage.getItem("user") || localStorage.getItem("tag") || localStorage.getItem("api")) {
+    window.dispatchEvent(new Event("userLoggedIn"));
+    
     doc.login.style.display = 'none';
     doc.header.head.style.display = 'flex';
     doc.main.style.display = 'block';
@@ -80,16 +82,16 @@ if (localStorage.getItem("user") || localStorage.getItem("tag") || localStorage.
     const tag = localStorage.getItem("tag");
     const apiKey = localStorage.getItem("api");
 
-    if (user && tag) {
+    if (user && tag) 
         doc.header.userDisp.textContent = `User: ${user}#${tag}`;
-    }
 
-    if (apiKey) {
+    if (apiKey) 
         doc.header.apiDisp.textContent = `Key: ${apiKey.slice(0, 9) + '...'}`
-    }
+
 }
 
 form.submit.addEventListener('click', (e) => {
     e.preventDefault();
     submit();
+    window.dispatchEvent(new Event("userLoggedIn"));
 });

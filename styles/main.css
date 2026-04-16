@@ -246,3 +246,34 @@ section h2 {
 .loss .cardBody div p{
     color: var(--loss);
 }
+
+/* Error ============================= */
+
+#alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    
+    background: #302525c4;
+
+    display: flex;
+    justify-items: center;
+    align-content: center;
+
+    z-index: 999;
+    transition: .2s;
+}
+
+#alert > div {
+    width: fit-content;
+    max-width: 50vw;
+    height: auto;
+    background: #505050de;
+    padding: 20px;
+    border-radius: 10px;
+
+    display: flex;
+    flex-direction: column;
+}

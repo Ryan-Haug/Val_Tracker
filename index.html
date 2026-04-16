@@ -1,69 +1,93 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Val Troocker</title>
+    <title>Valorant Statify</title>
 
     <link rel="stylesheet" href="./styles/main.css" />
-    <link rel="icon" href="" type="image/x-icon">
-</head>
+    <link rel="icon" href="./images/favicon.ico" type="image/x-icon" />
+  </head>
 
-<body>
+  <body>
     <div id="login">
-        <h1>log in</h1>
-        <hr>
+      <h1>log in</h1>
+      <hr />
 
-        <form>
-            <input type="text" id="userInp" autocomplete="off" placeholder="Username ex: 'chos3n'">
-            <input type="text" id="tagInp"  autocomplete="off" placeholder="Tagline ex: '50hs'" >
-            <input type="text" id="ApiInp"  autocomplete="off" placeholder="* API key">
+      <form>
+        <input
+          type="text"
+          id="userInp"
+          autocomplete="off"
+          placeholder="Username ex: 'chos3n'"
+        />
+        <input
+          type="text"
+          id="tagInp"
+          autocomplete="off"
+          placeholder="Tagline ex: '50hs'"
+        />
+        <input
+          type="text"
+          id="ApiInp"
+          autocomplete="off"
+          placeholder="* API key"
+        />
 
-            <p id="formError" style="display: none; color: red;"></p>
-            <button id="submitBtn">Submit</button>
-            <p>* For an API key please visit <a href="https://api.henrikdev.xyz/dashboard/api-keys" target="_blank">this website</a></p>
-        </form>
+        <p id="formError" style="display: none; color: red"></p>
+        <button id="submitBtn">Submit</button>
+        <p>
+          * For an API key please visit
+          <a href="https://api.henrikdev.xyz/dashboard/api-keys" target="_blank"
+            >this website</a
+          >
+        </p>
+      </form>
     </div>
 
-    <div id="alert" style="display: none;">
-        <h2></h2>
-        <p></p>
+    <div id="alert" style="display: none">
+      <div>
+        <h2 id="errorHead"></h2>
+        <p id="errorBody"></p>
+
+        <button onclick="toggleError()">Okay</button>
+      </div>
     </div>
 
-    <header id="head" style="display: none;">
-        <div>
-            <h1>Valorant Stats</h1>
-            <p id="userDisp">User: N/A</p>
-            <p id="apiDisp">Key: N/A</p>
-        </div>
+    <header id="head" style="display: none">
+      <div>
+        <h1>Valorant Statify</h1>
+        <p id="userDisp">User: N/A</p>
+        <p id="apiDisp">Key: N/A</p>
+      </div>
 
-        <div>
-            <button>Change User</button>
-            <button>Change Api Key</button>
-            <button style="background-color: red;" onclick="clearData()">Clear Data</button>
-        </div>
+      <div>
+        <button>Change User</button>
+        <button>Change Api Key</button>
+        <button style="background-color: red" onclick="clearData()">
+          Clear Data
+        </button>
+      </div>
     </header>
 
-    <main id="main" style="display: none;">
-        <section id="quick">
-            <h2>Quick Stats</h2>
-            <div>
-                <p>Rank - N/A</p>
-                <p>Total Games - N/A</p>
-                <p>Win Percent - N/A</p>
-                <p>Avg Gain/Loss - N/A</p>
-            </div>
-        </section>
+    <main id="main" style="display: none">
+      <section id="quick">
+        <h2>Quick Stats</h2>
+        <div>
+          <p>Rank - N/A</p>
+          <p>Total Games - N/A</p>
+          <p>Win Percent - N/A</p>
+          <p>Avg Gain/Loss - N/A</p>
+        </div>
+      </section>
 
-        <section id="games">
-            <h2>Games</h2>
-            <div class="cardCont">. . . No games found</div>
-        </section>
+      <section id="games">
+        <h2>Games</h2>
+        <div class="cardCont">loading . . .</div>
+      </section>
     </main>
 
-    <script src="./scripts/login.js" defer></script>
     <script src="./scripts/main.js" defer></script>
-</body>
-
+    <script src="./scripts/login.js" defer></script>
+  </body>
 </html>
