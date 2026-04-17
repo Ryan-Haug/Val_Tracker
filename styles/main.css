@@ -82,6 +82,7 @@ section h2 {
 #quick div{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
     gap: 1em;
 }
 
@@ -148,7 +149,7 @@ section h2 {
 
 .cardCont {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(325px, 2fr));
     gap: 1em;
 }
 
@@ -156,7 +157,6 @@ section h2 {
     display: flex;
     flex-direction: column;
     flex: 1;
-    max-width: 325px;
 
     background-color: var(--bg-inner);
     border: var(--text-muted) solid 2px;
@@ -191,7 +191,7 @@ section h2 {
 
 .cardBody {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 12px;
     margin-top: 12px;
 }
@@ -211,16 +211,36 @@ section h2 {
 }
 
 .cardBody p {
-    margin: 4px 0 0 8px;
+    margin: 5px 0;
     font-size: 1em;
     color: var(--text-primary);
     font-weight: 600;
 
     /* prevent long match IDs from breaking layout */
     word-break: break-word;
-    overflow: hidden;
+    overflow: auto;
     height: 2em;
 
+    align-content: center;
+    justify-self: center;
+}
+
+/* scrollbar */
+.cardBody p::-webkit-scrollbar {
+    width: 6px; /* thin */
+}
+
+.cardBody p::-webkit-scrollbar-track {
+    background: transparent; /* removes white track */
+}
+
+.cardBody p::-webkit-scrollbar-thumb {
+    background: var(--border-main); /* subtle color */
+    border-radius: 6px;
+}
+
+.cardBody p::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary); /* slight hover feedback */
 }
 
 .win {
@@ -276,4 +296,16 @@ section h2 {
 
     display: flex;
     flex-direction: column;
+}
+
+/* Media Queries ===================== */
+
+@media (max-width: 1350px) {
+    .cardCont {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        max-width: 90%;
+    }
 }

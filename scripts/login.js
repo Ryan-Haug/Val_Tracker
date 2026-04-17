@@ -70,7 +70,8 @@ function clearData(){
     location.reload();
 }
 
-if (localStorage.getItem("user") || localStorage.getItem("tag") || localStorage.getItem("api")) {
+function init() {
+    if (localStorage.getItem("user") || localStorage.getItem("tag") || localStorage.getItem("api")) {
     window.dispatchEvent(new Event("userLoggedIn"));
     
     doc.login.style.display = 'none';
@@ -87,11 +88,13 @@ if (localStorage.getItem("user") || localStorage.getItem("tag") || localStorage.
 
     if (apiKey) 
         doc.header.apiDisp.textContent = `Key: ${apiKey.slice(0, 9) + '...'}`
+    }
 
+    form.submit.addEventListener('click', (e) => {
+        e.preventDefault();
+        submit();
+        window.dispatchEvent(new Event("userLoggedIn"));
+    });
 }
 
-form.submit.addEventListener('click', (e) => {
-    e.preventDefault();
-    submit();
-    window.dispatchEvent(new Event("userLoggedIn"));
-});
+init()
