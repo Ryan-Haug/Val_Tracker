@@ -1,7 +1,7 @@
 :root {
     /* background */
     --bg-main: #0f1115;
-    --bg-card: #171b22; 
+    --bg-card: #171b22;
     --bg-inner: #10141a;
 
     /* borders */
@@ -9,7 +9,7 @@
 
     /* text */
     --text-primary: #f5f7fb;
-    --text-secondary: #b7c0d1;
+    --text-secondary: #b7c0d1ab;
     --text-muted: #93a0b8;
     --link: #00ccff;
 
@@ -19,23 +19,33 @@
 
     /* results */
     --win: #57d18b;
+    --win-muted: #286141;
     --loss: #fa5f5f;
+    --loss-muted: #6b2b2b;
     --neutral: #d6dbe4;
 
     /* borders (state) */
     --win-border: rgba(70, 180, 120, 0.45);
-    --loss-border: rgba(220, 80, 80, 0.45);
+    --loss-border: rgba(146, 44, 44, 0.45);
+
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
 }
 
 body {
     background-color: var(--bg-main);
 
     color: var(--text-primary);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-body);
     font-size: 1.1em;
 
     width: 90%;
     justify-self: center;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-display);
 }
 
 header {
@@ -44,9 +54,11 @@ header {
     align-items: center;
     margin: 1em;
 }
+
 header h1 {
     margin-bottom: 0;
 }
+
 header p {
     color: var(--text-muted);
     padding: 0 1em;
@@ -63,6 +75,7 @@ button {
     font-weight: 600;
     transition: .2s;
 }
+
 button:hover {
     transform: translateY(2px);
     background: var(--blue-muted);
@@ -76,10 +89,11 @@ section {
 }
 
 section h2 {
-    padding: 0; margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
-#quick div{
+#quick div {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-items: center;
@@ -103,7 +117,7 @@ section h2 {
 }
 
 #login hr {
-    border: 2px solid var(--blue-muted );
+    border: 2px solid var(--blue-muted);
     border-radius: 2px;
     width: 200px;
     margin-bottom: 2em;
@@ -147,9 +161,9 @@ section h2 {
 
 /* Cards ===================== */
 
-.cardCont {
+#cardCont {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(325px, 2fr));
+    grid-template-columns: 1fr 1fr;
     gap: 1em;
 }
 
@@ -160,6 +174,7 @@ section h2 {
 
     background-color: var(--bg-inner);
     border: var(--text-muted) solid 2px;
+    border-left-width: 4px;
     border-radius: 10px;
     justify-self: center;
 
@@ -176,14 +191,16 @@ section h2 {
     color: var(--text-secondary);
     margin-left: 5px;
 }
+
 .cardHeader h3 {
     margin: 0;
 }
 
-.cardHeader div{
+.cardHeader div {
     display: flex;
     justify-content: space-between;
 }
+
 .cardHeader div p {
     color: var(--text-primary);
     margin-left: 0;
@@ -212,8 +229,8 @@ section h2 {
 
 .cardBody p {
     margin: 5px 0;
-    font-size: 1em;
     color: var(--text-primary);
+    font-family: var(--font-mono);
     font-weight: 600;
 
     /* prevent long match IDs from breaking layout */
@@ -222,48 +239,64 @@ section h2 {
     height: 2em;
 
     align-content: center;
-    justify-self: center;
+    /* justify-self: center; */
 }
 
 /* scrollbar */
 .cardBody p::-webkit-scrollbar {
-    width: 6px; /* thin */
+    width: 6px;
+    /* thin */
 }
 
 .cardBody p::-webkit-scrollbar-track {
-    background: transparent; /* removes white track */
+    background: transparent;
+    /* removes white track */
 }
 
 .cardBody p::-webkit-scrollbar-thumb {
-    background: var(--border-main); /* subtle color */
+    background: var(--border-main);
+    /* subtle color */
     border-radius: 6px;
 }
 
 .cardBody p::-webkit-scrollbar-thumb:hover {
-    background: var(--text-secondary); /* slight hover feedback */
+    background: var(--text-secondary);
+    /* slight hover feedback */
 }
 
 .win {
     border-color: var(--win-border);
-    color: var(--win);
-}
-.win .cardHeader div p{
+    border-left-color: var(--win);
     color: var(--win);
 }
 
-.win .cardBody div p{
+.win .cardHeader div p {
+    color: var(--win);
+    background-color: var(--win-muted);
+    border: 2px solid var(--win);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.win .cardBody div p {
     color: var(--win);
 }
 
 .loss {
     border-color: var(--loss-border);
-    color: var(--loss);
-}
-.loss .cardHeader div p{
+    border-left-color: var(--loss);
     color: var(--loss);
 }
 
-.loss .cardBody div p{
+.loss .cardHeader div p {
+    color: var(--loss);
+    background-color: var(--loss-muted);
+    border: 2px solid var(--loss);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.loss .cardBody div p {
     color: var(--loss);
 }
 
@@ -275,7 +308,7 @@ section h2 {
     left: 0;
     width: 100vw;
     height: 100vh;
-    
+
     background: #302525c4;
 
     display: flex;
@@ -286,7 +319,7 @@ section h2 {
     transition: .2s;
 }
 
-#alert > div {
+#alert>div {
     width: fit-content;
     max-width: 50vw;
     height: auto;
@@ -300,8 +333,8 @@ section h2 {
 
 /* Media Queries ===================== */
 
-@media (max-width: 1350px) {
-    .cardCont {
+@media (max-width: 1550px) {
+    #cardCont {
         grid-template-columns: 1fr;
     }
 
