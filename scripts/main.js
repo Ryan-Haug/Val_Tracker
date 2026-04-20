@@ -37,6 +37,8 @@ async function init() {
   }
   gamesCount.textContent = `Games | ${gameData.data.length} total`
   statsCount.textContent = `Quick Stats | ${mmrData.data.history.length} total`
+
+  console.log("[Init] Finished loading cards");
 }
 
 async function fetchMMR() {
