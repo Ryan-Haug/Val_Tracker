@@ -5,6 +5,8 @@ const errorPrompt = {
 };
 
 const cardCont = document.getElementById("cardCont");
+const gamesCount = document.getElementById("gameHead");
+const statsCount = document.getElementById("quickHead");
 
 let user;
 
@@ -30,10 +32,11 @@ async function init() {
 
   console.log('[Init] loading game cards');
   cardCont.innerHTML = '';
-  for (let i = 0; i < mmrData.data.history.length; i++) { 
+  for (let i = 0; i < gameData.data.length; i++) { 
     cardCont.appendChild(createCard(mmrData.data.history[i], gameData.data[i].stats, gameData.data[i].teams));
   }
-
+  gamesCount.textContent = `Games | ${gameData.data.length} total`
+  statsCount.textContent = `Quick Stats | ${mmrData.data.history.length} total`
 }
 
 async function fetchMMR() {

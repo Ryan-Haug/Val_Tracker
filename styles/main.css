@@ -93,6 +93,24 @@ section h2 {
     margin: 0;
 }
 
+/* scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-main);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
 #quick div {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -165,6 +183,10 @@ section h2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1em;
+}
+
+#gameHead {
+    margin-bottom: .5em;
 }
 
 .card {
@@ -242,27 +264,6 @@ section h2 {
     /* justify-self: center; */
 }
 
-/* scrollbar */
-.cardBody p::-webkit-scrollbar {
-    width: 6px;
-    /* thin */
-}
-
-.cardBody p::-webkit-scrollbar-track {
-    background: transparent;
-    /* removes white track */
-}
-
-.cardBody p::-webkit-scrollbar-thumb {
-    background: var(--border-main);
-    /* subtle color */
-    border-radius: 6px;
-}
-
-.cardBody p::-webkit-scrollbar-thumb:hover {
-    background: var(--text-secondary);
-    /* slight hover feedback */
-}
 
 .win {
     border-color: var(--win-border);
