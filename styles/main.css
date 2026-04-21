@@ -1,36 +1,44 @@
 :root {
     /* background */
-    --bg-main: #0f1115;
-    --bg-card: #171b22;
-    --bg-inner: #10141a;
+    --bg-main: #0d1117;
+    --bg-card: #161b22;
+    --bg-inner: #0d1117;
 
     /* borders */
-    --border-main: #2a3140;
+    --border-main: #30363d;
 
     /* text */
-    --text-primary: #f5f7fb;
-    --text-secondary: #b7c0d1ab;
-    --text-muted: #93a0b8;
-    --link: #00ccff;
+    --text-primary: #ffffff;
+    --text-secondary: #e6edf3;
+    --text-muted: #8b949e;
+    --link: #58a6ff;
 
     /* accents */
     --blue: #1f6feb;
-    --blue-muted: #1856b3;
+    --blue-muted: #0969da;
 
     /* results */
-    --win: #57d18b;
-    --win-muted: #286141;
-    --loss: #fa5f5f;
-    --loss-muted: #6b2b2b;
-    --neutral: #d6dbe4;
+    --win: #3fb950;
+    --win-muted: #238636;
+    --loss: #f85149;
+    --loss-muted: #a32220;
+    --neutral: #e2e8f0;
 
     /* borders (state) */
-    --win-border: rgba(70, 180, 120, 0.45);
-    --loss-border: rgba(146, 44, 44, 0.45);
+    --win-border: rgba(63, 185, 80, 0.5);
+    --loss-border: rgba(248, 81, 73, 0.5);
 
     --font-display: 'Barlow Condensed', sans-serif;
     --font-body: 'Barlow', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Animtations ============== */
+
+@keyframes blink {
+    0% {opacity: 1;}
+    50% {opacity: 0;}
+    100% {opacity: 1;}
 }
 
 body {
@@ -111,11 +119,58 @@ section h2 {
     background: var(--text-secondary);
 }
 
+#quickHead {
+    margin-bottom: 5px;
+}
+
 #quick div {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-items: center;
     gap: 1em;
+}
+
+#quick div div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-card);
+    border: 1px solid var(--border-main);
+    border-radius: 8px;
+    padding: 10px;
+    width: 80%;
+    height: 2em;
+    transition: .2s;
+}
+
+#quick div div:hover {
+    transform: translateY(-5px);
+}
+
+#quick div div p {
+    margin: 0;
+    padding: 0;
+}
+
+#quick div div p:first-child {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+#quick div div p:last-child {
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+.active::before {
+    content: "• ";
+    color: #57d18b;
+
+    animation: blink 2s infinite;
 }
 
 /* Login Form ===================== */
@@ -186,7 +241,7 @@ section h2 {
 }
 
 #gameHead {
-    margin-bottom: .5em;
+    margin-bottom: 5px;
 }
 
 .card {

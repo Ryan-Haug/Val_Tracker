@@ -35,8 +35,8 @@ async function init() {
   for (let i = 0; i < gameData.data.length; i++) { 
     cardCont.appendChild(createCard(mmrData.data.history[i], gameData.data[i].stats, gameData.data[i].teams));
   }
-  gamesCount.textContent = `Games | ${gameData.data.length} total`
-  statsCount.textContent = `Quick Stats | ${mmrData.data.history.length} total`
+  statsCount.textContent = `Quick Stats • (${mmrData.data.history.length})`
+  gamesCount.textContent = `Games • (${gameData.data.length})`
 
   console.log("[Init] Finished loading cards");
 }
@@ -139,6 +139,8 @@ function toggleError(enabled = false, title, errText) {
 function createCard(mmrData, gameData, rounds) {
   const div = document.createElement("div");
 
+  console.log(rounds, gameData.team)
+
   div.innerHTML = `
     <div class="card ${mmrData.last_change > 0 ? 'win' : 'loss'}">
       <div class="cardHeader">
@@ -155,16 +157,16 @@ function createCard(mmrData, gameData, rounds) {
           <p>${mmrData.match_id}</p>
         </div>
         <div>
-          <h5>KDA:</h5>
-          <p>${gameData.kills}/${gameData.deaths}/${gameData.assists} | ${Math.round((gameData.kills / gameData.deaths) * 100) / 100}</p>
+          <h5>Rank / Elo:</h5>
+          <p>${mmrData.tier.name} | ${mmrData.elo}</p>
         </div>
         <div>
           <h5>Rounds:</h5>
-          <p>${rounds[gameData.team == "red" ? "blue" : "red"]}/${rounds[gameData.team == "red" ? "red" : "blue"]}</p>
+          <p>${gameData.team == "Blue" ? `${rounds.blue}/${rounds.red}` : `${rounds.red}/${rounds.blue}`}</p>
         </div>
         <div>
-          <h5>Rank / Elo:</h5>
-          <p>${mmrData.tier.name} | ${mmrData.elo}</p>
+          <h5>KDA:</h5>
+          <p>${gameData.kills}/${gameData.deaths}/${gameData.assists} | ${Math.round((gameData.kills / gameData.deaths) * 100) / 100}</p>
         </div>
         <div>
           <h5>Combat Score:</h5>
