@@ -135,7 +135,7 @@ section h2 {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background: var(--bg-card);
+    background: var(--bg-inner);
     border: 1px solid var(--border-main);
     border-radius: 8px;
     padding: 10px;
@@ -145,7 +145,7 @@ section h2 {
 }
 
 #quick div div:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
 }
 
 #quick div div p {
