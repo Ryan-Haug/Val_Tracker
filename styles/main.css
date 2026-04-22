@@ -128,7 +128,6 @@ a {
     white-space: pre-line;
 }
 
-/* error text */
 #loginForm section p { 
     font-style: var(--font-large);
     font-weight: 600;

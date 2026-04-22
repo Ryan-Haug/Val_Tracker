@@ -21,6 +21,8 @@ function submit(e) {
     const tag = form.tag.value.trim();
     const key = form.api.value.trim();
 
+    errors = [];
+
     //ensure all fields are present
     if (!user) errors.push('username is required');
     if (!tag) errors.push('tag is required');
@@ -32,7 +34,7 @@ function submit(e) {
     if (key.trim(0, 4) != 'HDEV') errors.push("invalid api key");
 
     if (errors.length > 0) {
-        errors.textContent = '';
+        form.error.textContent = '';
 
         errors.forEach(error => {
             form.error.textContent += `${error} \n`
