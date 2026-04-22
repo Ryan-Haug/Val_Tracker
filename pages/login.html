@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vandalytics - Stats for Valorant</title>
+
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon" />
+  </head>
+
+  <body>
+    <form id="loginForm">
+      <section>
+        <h1>Please log in</h1>
+
+        <input type="text" id="user" placeholder="Name ex: chos3n" />
+        <input type="text" id="tag" placeholder="Tag ex:50hs" />
+        <input type="text" id="api" placeholder="* API key" />
+        <span id="error"></span>
+
+        <button id="submit">Submit</button>
+        <p>
+          * For an API key please go <a
+            href="https://api.henrikdev.xyz/dashboard/api-keys"
+            target="_blank"
+            >here</a
+          >
+        </p>
+      </section>
+    </form>
+
+    <script src="../scripts/login.js" defer></script>
+  </body>
+</html>

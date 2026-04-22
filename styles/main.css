@@ -1,400 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Barlow:wght@400;500;600&display=swap');
+
+/* ═══════════════════════════════════════════════
+   Colors
+═══════════════════════════════════════════════ */
 :root {
-    /* background */
-    --bg-main: #0d1117;
-    --bg-card: #161b22;
-    --bg-inner: #0d1117;
+    --bg:            #07090d;
+    --bg-card:       #0c1018;
+    --bg-inner:      #080c12;
+    --bg-raised:     #101620;
 
-    /* borders */
-    --border-main: #30363d;
+    --border:        #243040;
+    --border-dim:    #181f2e;
 
-    /* text */
-    --text-primary: #ffffff;
-    --text-secondary: #e6edf3;
-    --text-muted: #8b949e;
-    --link: #58a6ff;
+    --text-1:        #e8edf5;
+    --text-2:        #8fa3bf;
+    --text-3:        #4d607a;
 
-    /* accents */
-    --blue: #1f6feb;
-    --blue-muted: #0969da;
+    --blue:          #1d6ef5;
+    --blue-dim:      #1558cc;
+    --cyan:          #22d3ee;
 
-    /* results */
-    --win: #3fb950;
-    --win-muted: #238636;
-    --loss: #f85149;
-    --loss-muted: #a32220;
-    --neutral: #e2e8f0;
+    --win:           #34d399;
+    --win-bg:        rgba(52, 211, 153, .08);
+    --win-border:    rgba(52, 211, 153, .35);
 
-    /* borders (state) */
-    --win-border: rgba(63, 185, 80, 0.5);
-    --loss-border: rgba(248, 81, 73, 0.5);
+    --loss:          #f87171;
+    --loss-bg:       rgba(248, 113, 113, .08);
+    --loss-border:   rgba(248, 113, 113, .35);
 
-    --font-display: 'Barlow Condensed', sans-serif;
-    --font-body: 'Barlow', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
+    --font-main:  'Barlow', sans-serif;
+    --font-large: 'Barlow Condensed', sans-serif;
+    --font-small: 'JetBrains Mono', monospace;
+
+    --radius: 8px;
+    --radius-2: 12px;
 }
 
-/* Animtations ============== */
+/* ═══════════════════════════════════════════════
+   Global
+═══════════════════════════════════════════════ */
 
-@keyframes blink {
-    0% {opacity: 1;}
-    50% {opacity: 0;}
-    100% {opacity: 1;}
+* {
+    font-style: var(--font-main);
+    color: var(--text-1);
 }
 
 body {
-    background-color: var(--bg-main);
-
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    font-size: 1.1em;
-
-    width: 90%;
-    justify-self: center;
-}
-
-h1, h2, h3 {
-    font-family: var(--font-display);
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 1em;
-}
-
-header h1 {
-    margin-bottom: 0;
-}
-
-header p {
-    color: var(--text-muted);
-    padding: 0 1em;
     margin: 0;
+    background-color: var(--bg);
+    background-image:
+        linear-gradient(#111 1px, transparent 1px),
+        linear-gradient(90deg, #111 1px, transparent 1px);
+    background-size: 50px 50px;
 }
 
 button {
-    padding: 10px 14px;
-    border: none;
-    border-radius: 10px;
-    background: var(--blue);
-    color: var(--text-primary);
-    cursor: pointer;
-    font-weight: 600;
-    transition: .2s;
-}
-
-button:hover {
-    transform: translateY(2px);
-    background: var(--blue-muted);
-}
-
-section {
-    background: var(--bg-card);
-    padding: 1em;
-    margin: 1em;
-    border-radius: 15px;
-}
-
-section h2 {
-    padding: 0;
-    margin: 0;
-}
-
-/* scrollbar */
-::-webkit-scrollbar {
-    width: 6px;
-}
-
-::-webkit-scrollbar-track {
+    padding: 8px 16px;
     background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--border-main);
-    border-radius: 6px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--text-secondary);
-}
-
-#quickHead {
-    margin-bottom: 5px;
-}
-
-#quick div {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    justify-items: center;
-    gap: 1em;
-}
-
-#quick div div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--bg-inner);
-    border: 1px solid var(--border-main);
-    border-radius: 8px;
-    padding: 10px;
-    width: 80%;
-    height: 2em;
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius);
+    color: var(--text-1);
+    font-family: var(--fd);
+    font-size: .85rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    cursor: pointer;
     transition: .2s;
+    white-space: nowrap;
+}
+button:hover {
+    border-color: var(--blue);
+    color: #fff;
+    box-shadow: 0 3px 14px var(--blue-glow);
+    transform: translateY(-1px);
+}
+button:active { transform: translateY(0); }
+
+a {
+    color: var(--cyan);
 }
 
-#quick div div:hover {
-    transform: translateY(-2px);
+/* ═══════════════════════════════════════════════
+   Login
+═══════════════════════════════════════════════ */
+
+#loginForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw; height: 100vh;
+
+    color: var(--text-1);
 }
 
-#quick div div p {
-    margin: 0;
-    padding: 0;
-}
-
-#quick div div p:first-child {
-    font-size: 0.9em;
-    color: var(--text-muted);
-    font-weight: 500;
-}
-
-#quick div div p:last-child {
-    color: var(--text-primary);
-    font-family: var(--font-mono);
-    font-weight: 600;
-    font-size: 1.2em;
-}
-
-.active::before {
-    content: "• ";
-    color: #57d18b;
-
-    animation: blink 2s infinite;
-}
-
-/* Login Form ===================== */
-
-#login {
-    background: var(--bg-card);
-    padding: 2em;
-    margin: 2em auto;
-    border-radius: 15px;
-    max-width: 400px;
-    text-align: center;
-}
-
-#login h1 {
-    margin-bottom: 0;
-    color: var(--text-primary);
-}
-
-#login hr {
-    border: 2px solid var(--blue-muted);
-    border-radius: 2px;
-    width: 200px;
-    margin-bottom: 2em;
-}
-
-#login form {
+#loginForm section {
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--bg-card);
+
+    padding: 2em 6em;
+
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
 }
 
-#login input {
-    padding: 12px;
-    border: 2px solid var(--border-main);
-    border-radius: 10px;
-    background: var(--bg-inner);
-    color: var(--text-primary);
-    font-size: 1em;
+#loginForm section input {
+    padding: 1em 2em;
+    margin: 10px;
+    width: 110%;
+
+    background-color: var(--bg-raised);
+
+    border-radius: var(--radius);
+    border: 2px solid var(--border-dim);
 }
 
-#login input::placeholder {
-    color: var(--text-muted);
-}
-
-#login input:focus {
-    outline: none;
-    border-color: var(--blue);
-}
-
-#login button {
-    margin-top: 1em;
-}
-
-#login p {
+/* error text */
+#loginForm section span { 
+    font-style: var(--font-large);
+    font-weight: 600;
+    color: var(--loss);
     white-space: pre-line;
 }
 
-#login a {
-    color: var(--link);
-}
-
-/* Cards ===================== */
-
-#cardCont {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1em;
-}
-
-#gameHead {
-    margin-bottom: 5px;
-}
-
-.card {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-
-    background-color: var(--bg-inner);
-    border: var(--text-muted) solid 2px;
-    border-left-width: 4px;
-    border-radius: 10px;
-    justify-self: center;
-
-    padding: 1em 2em;
-    transition: .2s;
-}
-
-.card:hover {
-    transform: translateY(-3px);
-}
-
-.cardHeader p {
-    margin: 0;
-    color: var(--text-secondary);
-    margin-left: 5px;
-}
-
-.cardHeader h3 {
-    margin: 0;
-}
-
-.cardHeader div {
-    display: flex;
-    justify-content: space-between;
-}
-
-.cardHeader div p {
-    color: var(--text-primary);
-    margin-left: 0;
-}
-
-.cardBody {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px;
-    margin-top: 12px;
-}
-
-.cardBody div {
-    background: var(--bg-card);
-    border: 1px solid var(--border-main);
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.cardBody h5 {
-    margin: 0;
-    font-size: 0.75em;
-    color: var(--text-muted);
-    font-weight: 500;
-}
-
-.cardBody p {
-    margin: 5px 0;
-    color: var(--text-primary);
-    font-family: var(--font-mono);
+/* error text */
+#loginForm section p { 
+    font-style: var(--font-large);
     font-weight: 600;
-
-    /* prevent long match IDs from breaking layout */
-    word-break: break-word;
-    overflow: auto;
-    height: 2em;
-
-    align-content: center;
-    /* justify-self: center; */
+    color: var(--text-2);
 }
 
-
-.win {
-    border-color: var(--win-border);
-    border-left-color: var(--win);
-    color: var(--win);
-}
-
-.win .cardHeader div p {
-    color: var(--win);
-    background-color: var(--win-muted);
-    border: 2px solid var(--win);
-    border-radius: 5px;
-    padding: 5px;
-}
-
-.win .cardBody div p {
-    color: var(--win);
-}
-
-.loss {
-    border-color: var(--loss-border);
-    border-left-color: var(--loss);
-    color: var(--loss);
-}
-
-.loss .cardHeader div p {
-    color: var(--loss);
-    background-color: var(--loss-muted);
-    border: 2px solid var(--loss);
-    border-radius: 5px;
-    padding: 5px;
-}
-
-.loss .cardBody div p {
-    color: var(--loss);
-}
-
-/* Error ============================= */
-
-#alert {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-
-    background: #302525c4;
-
-    display: flex;
-    justify-items: center;
-    align-content: center;
-
-    z-index: 999;
-    transition: .2s;
-}
-
-#alert>div {
-    width: fit-content;
-    max-width: 50vw;
-    height: auto;
-    background: #505050de;
-    padding: 20px;
-    border-radius: 10px;
-
-    display: flex;
-    flex-direction: column;
-}
-
-/* Media Queries ===================== */
-
-@media (max-width: 1550px) {
-    #cardCont {
-        grid-template-columns: 1fr;
-    }
-
-    .card {
-        max-width: 90%;
-    }
+#loginForm section button {
+    padding: .6em 4em;
+    margin-top: 50px;
+    background-color: var(--blue-dim);
 }
