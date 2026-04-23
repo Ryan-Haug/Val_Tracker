@@ -4,31 +4,31 @@
    Colors
 ═══════════════════════════════════════════════ */
 :root {
-    --bg:            #07090d;
-    --bg-card:       #0c1018;
-    --bg-inner:      #080c12;
-    --bg-raised:     #101620;
+    --bg: #07090d;
+    --bg-card: #0c1018;
+    --bg-inner: #080c12;
+    --bg-raised: #101620;
 
-    --border:        #243040;
-    --border-dim:    #181f2e;
+    --border: #243040;
+    --border-dim: #181f2e;
 
-    --text-1:        #e8edf5;
-    --text-2:        #8fa3bf;
-    --text-3:        #4d607a;
+    --text-1: #e8edf5;
+    --text-2: #8fa3bf;
+    --text-3: #4d607a;
 
-    --blue:          #1d6ef5;
-    --blue-dim:      #1558cc;
-    --cyan:          #22d3ee;
+    --blue: #1d6ef5;
+    --blue-dim: #1558cc;
+    --cyan: #22d3ee;
 
-    --win:           #34d399;
-    --win-bg:        rgba(52, 211, 153, .08);
-    --win-border:    rgba(52, 211, 153, .35);
+    --win: #34d399;
+    --win-bg: rgba(52, 211, 153, .08);
+    --win-border: rgba(52, 211, 153, .35);
 
-    --loss:          #f87171;
-    --loss-bg:       rgba(248, 113, 113, .08);
-    --loss-border:   rgba(248, 113, 113, .35);
+    --loss: #f87171;
+    --loss-bg: rgba(248, 113, 113, .08);
+    --loss-border: rgba(248, 113, 113, .35);
 
-    --font-main:  'Barlow', sans-serif;
+    --font-main: 'Barlow', sans-serif;
     --font-large: 'Barlow Condensed', sans-serif;
     --font-small: 'JetBrains Mono', monospace;
 
@@ -69,16 +69,20 @@ button {
     transition: .2s;
     white-space: nowrap;
 }
+
 button:hover {
     border-color: var(--blue);
     color: #fff;
     box-shadow: 0 3px 14px var(--blue-glow);
     transform: translateY(-1px);
 }
-button:active { transform: translateY(0); }
+
+button:active {
+    transform: translateY(0);
+}
 
 .warn {
-    background-color: rgba(248,113,113,.12);
+    background-color: rgba(248, 113, 113, .12);
     border-color: var(--loss-border);
     color: var(--loss);
 }
@@ -91,7 +95,12 @@ a {
     color: var(--cyan);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: var(--font-large);
     letter-spacing: .1em;
 }
@@ -105,7 +114,8 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: center;
     align-items: center;
 
-    width: 100vw; height: 100vh;
+    width: 100vw;
+    height: 100vh;
 
     color: var(--text-1);
 }
@@ -146,14 +156,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* error text */
-#loginForm section span { 
+#loginForm section span {
     font-style: var(--font-large);
     font-weight: 600;
     color: var(--loss);
     white-space: pre-line;
 }
 
-#loginForm section p { 
+#loginForm section p {
     font-style: var(--font-large);
     font-weight: 600;
     color: var(--text-2);
@@ -257,5 +267,214 @@ header .badgeLoss {
     border-radius: var(--radius);
 }
 
-header .badgeWin::before{content: "▲";}
-header .badgeLoss::before{content: "▼";}
+header .badgeWin::before {
+    content: "▲";
+}
+
+header .badgeLoss::before {
+    content: "▼";
+}
+
+/* ═══════════════════════════════════════════════
+   Main Content
+═══════════════════════════════════════════════ */
+
+main {
+    width: 85%;
+    justify-self: center;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: auto 1fr;
+    gap: 20px;
+    margin: 20px;
+}
+
+main h2 {
+    color: var(--text-3);
+    margin: 20px 10px;
+}
+
+aside {
+    grid-column: 1 / -1;
+    background-color: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0 1em;
+}
+
+aside h2 {
+    margin: 5px 0;
+    padding: 0;
+}
+
+#graphs {
+    grid-column: 1;
+    grid-row: 2;
+    background-color: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0 1em;
+    height: fit-content;
+}
+
+main section {
+    background-color: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0 1em;
+}
+
+main section:nth-of-type(2) {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+/* ═══════════════════════════════════════════════
+   Quick Stats
+═══════════════════════════════════════════════ */
+
+#quickStats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#quickStats div {
+    width: 10%;
+    padding: 0 1em;
+    margin-bottom: 5px;
+    background-color: var(--bg);
+
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius);
+}
+
+#quickStats div p {
+    color: var(--text-3);
+    margin: 5px;
+}
+
+#quickStats div h3 {
+    justify-self: center;
+    font-size: 1.5em;
+    margin: 10px;
+}
+
+/* ═══════════════════════════════════════════════
+   Games
+═══════════════════════════════════════════════ */
+
+#sortButtons {
+    margin-bottom: 1em;
+}
+
+#gameCont {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.card {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2em;
+
+    background-color: var(--bg-inner);
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius-2);
+
+    min-height: 200px;
+}
+
+.cardHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: left;
+}
+
+.cardHeader div {
+    display: flex;
+    flex-direction: column;
+}
+
+.cardHeader div h4 {
+    margin: 5px 0;
+    font-size: 1.9em;
+}
+
+.cardHeader div p {
+    margin: 0;
+    color: var(--text-2);
+}
+
+.RRbadge {
+    padding: .2em .4em;
+    text-align: center;
+    width: fit-content;
+    font-size: 1.2em;
+
+    background-color: var(--blue-dim);
+    border: 2px solid var(--blue);
+    border-radius: var(--radius);
+}
+
+.cardBody {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    justify-content: center;
+    align-items: center;
+
+    width: 70%;
+}
+
+.cardBody div {
+    background-color: var(--bg-card);
+
+    width: 90%;
+    height: 85%;
+    border: 2px solid var(--border-dim);
+    border-radius: var(--radius-2);
+}
+
+.cardBody div * {
+    margin: 10px;
+}
+
+.cardBody div p {
+    color: var(--text-2);
+}
+
+.cardBody div h3, .cardBody div h5 {
+    justify-self: center;
+}
+
+.win {
+    border: 2px solid var(--win-border);
+    border-left: 4px solid var(--win);
+}
+.win .cardBody h3, .win .cardBody div h5 {
+    color: var(--win);
+}
+
+.win .RRbadge {
+    border: 2px solid var(--win);
+    background-color: var(--win-border);
+    color: var(--win);
+}
+
+.loss {
+    border: 2px solid var(--loss-border);
+    border-left: 4px solid var(--loss);
+}
+.loss .cardBody h3, .loss .cardBody div h5 {
+    color: var(--loss);
+}
+
+.loss .RRbadge {
+    border: 2px solid var(--loss);
+    background-color: var(--loss-border);
+    color: var(--loss);
+}

@@ -17,7 +17,7 @@ form.submit.addEventListener('click', (e) => {
 });
 
 function submit(e) {
-    const user = form.user.value.trim();
+    const name = form.user.value.trim();
     const tag = form.tag.value.trim();
     const key = form.api.value.trim();
 
@@ -25,8 +25,8 @@ function submit(e) {
 
     //ensure all fields are present and valid 
     //username
-    if (!user) errors.push('username is required');
-    if (user && (user.length < 3 || user.length > 16)) {
+    if (!name) errors.push('username is required');
+    if (name && (user.length < 3 || user.length > 16)) {
         errors.push('username must be 3-16 characters long');
     }
 
@@ -52,7 +52,7 @@ function submit(e) {
         return;
     }
 
-    localStorage.setItem('user', user)
+    localStorage.setItem('name', name)
     localStorage.setItem('tag', tag)
     localStorage.setItem('key', key)
 
