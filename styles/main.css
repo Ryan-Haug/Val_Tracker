@@ -41,7 +41,7 @@
 ═══════════════════════════════════════════════ */
 
 * {
-    font-style: var(--font-main);
+    font-family: var(--font-main);
     color: var(--text-1);
 }
 
@@ -77,8 +77,23 @@ button:hover {
 }
 button:active { transform: translateY(0); }
 
+.warn {
+    background-color: rgba(248,113,113,.12);
+    border-color: var(--loss-border);
+    color: var(--loss);
+}
+
+.warn:hover {
+    border-color: var(--loss);
+}
+
 a {
     color: var(--cyan);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-large);
+    letter-spacing: .1em;
 }
 
 /* ═══════════════════════════════════════════════
@@ -115,9 +130,19 @@ a {
     width: 110%;
 
     background-color: var(--bg-raised);
+    font-size: 1.1rem;
 
     border-radius: var(--radius);
     border: 2px solid var(--border-dim);
+}
+
+#loginForm section input:-webkit-autofill,
+#loginForm section input:-webkit-autofill:hover,
+#loginForm section input:-webkit-autofill:focus,
+#loginForm section input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--bg-raised) inset;
+    -webkit-text-fill-color: var(--text-1);
+    transition: background-color 9999s ease-in-out 0s;
 }
 
 /* error text */
@@ -139,3 +164,98 @@ a {
     margin-top: 50px;
     background-color: var(--blue-dim);
 }
+
+/* ═══════════════════════════════════════════════
+   Header
+═══════════════════════════════════════════════ */
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 2em;
+
+    background-color: var(--bg-card);
+    border-bottom: 2px solid var(--border);
+}
+
+header section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+header section h1 {
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--text-1) 30%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+header section p {
+    background-color: var(--bg-card);
+    padding: 4px 8px;
+
+    border: 2px solid var(--border-dim);
+    border-radius: var(--radius);
+
+    font-size: .75em;
+    letter-spacing: .1em;
+    color: var(--text-3);
+}
+
+header section div {
+    display: flex;
+    align-items: center;
+
+    padding: 0 .2em;
+    font-size: .8em;
+
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    background-color: var(--bg-inner);
+}
+
+header section div h3 {
+    margin: 0 5px;
+}
+
+header section div p {
+    color: var(--text-2);
+    margin: 8px 5px;
+
+    border: none;
+    background-color: transparent;
+}
+
+header section * {
+    margin: 10px 8px;
+}
+
+header section button {
+    background-color: var(--bg-inner);
+    margin: 2px;
+}
+
+header .badgeWin {
+    color: var(--win);
+    background-color: var(--win-bg);
+
+    padding: .4em .8em;
+    border: 1px solid var(--win-border);
+    border-radius: var(--radius);
+}
+
+header .badgeLoss {
+    color: var(--loss);
+    background-color: var(--loss-bg);
+
+    padding: .4em .8em;
+    border: 1px solid var(--loss-border);
+    border-radius: var(--radius);
+}
+
+header .badgeWin::before{content: "▲";}
+header .badgeLoss::before{content: "▼";}

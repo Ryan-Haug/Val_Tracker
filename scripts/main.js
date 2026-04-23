@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const errorPrompt = { c: $("alert"), h: $("errorHead"), b: $("errorBody") };
+const errorPrompt = { cont: $("alert"), head: $("alertHead"), body: $("alertBody") };
 let user, mmr, games, refreshTimer;
 
 //load page

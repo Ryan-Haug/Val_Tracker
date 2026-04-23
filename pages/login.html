@@ -9,14 +9,14 @@
     <link rel="icon" href="../images/favicon.ico" type="image/x-icon" />
   </head>
 
-  <body>
+  <body style="overflow: hidden;">
     <form id="loginForm">
       <section>
         <h1>Please log in</h1>
 
         <input type="text" id="user" placeholder="Name ex: chos3n" />
         <input type="text" id="tag" placeholder="Tag ex:50hs" />
-        <input type="text" id="api" placeholder="* API key" />
+        <input type="text" id="api" placeholder="* API key" autocomplete="off"/>
         <span id="error"></span>
 
         <button id="submit">Submit</button>
