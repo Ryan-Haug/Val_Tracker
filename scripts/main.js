@@ -149,12 +149,12 @@ function createCard(mmrData, gameData, rounds) {
 
             <div class="cardBody">
               <div>
-                <p>Rounds</p>
-                <h3>${rounds[gameData.team == "red" ? "blue" : "red"]}/${rounds[gameData.team == "red" ? "red" : "blue"]}</h3>
-              </div>
-              <div>
                 <p>Rank / Elo</p>
                 <h3>${mmrData.tier.name} | ${mmrData.elo}</h3>
+              </div>
+              <div>
+                <p>Rounds</p>
+                <h3>${rounds[gameData.team == "red" ? "blue" : "red"]}/${rounds[gameData.team == "red" ? "red" : "blue"]}</h3>
               </div>
               <div>
                 <p>Combat Score</p>
