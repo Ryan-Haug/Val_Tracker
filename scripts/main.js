@@ -1,7 +1,10 @@
 const $ = id => document.getElementById(id);
 const errorPrompt = { cont: $("alert"), head: $("alertHead"), body: $("alertBody") };
+const charts = {elo: $('eloGraph'), kda: $('kdaGraph'), shots: $('shotGraph')};
+
 const quickStats = {qs1: $("qs1"), qs2: $("qs2"), qs3: $("qs3"), qs4: $("qs4"), qs5: $("qs5"),
   qs6: $("qs6"), qs7: $("qs7"), qs8: $("qs8")};
+
 const cardCont = $("gameCont");
 
 let user, mmr, games, refreshTimer;
@@ -185,7 +188,187 @@ function loadQuickStats() {
 }
 
 function loadGraphs() {
+  const C = getComputedStyle(document.documentElement);
+  const get = v => C.getPropertyValue(v).trim();
 
+  const bg       = get('--bg');
+  const bgCard   = get('--bg-card');
+  const border   = get('--border');
+  const text1    = get('--text-1');
+  const text2    = get('--text-2');
+  const text3    = get('--text-3');
+  const win      = get('--win');
+  const loss     = get('--loss');
+  const blue     = get('--blue');
+  const cyan     = get('--cyan');
+
+  const fontSmall = "'JetBrains Mono', monospace";
+
+  const baseOptions = {
+    responsive: true,
+    animation: { duration: 600 },
+    plugins: {
+      legend: {
+        labels: {
+          color: text2,
+          font: { family: fontSmall, size: 11 },
+          boxWidth: 10,
+          padding: 16
+        }
+      },
+      tooltip: {
+        backgroundColor: bgCard,
+        borderColor: border,
+        borderWidth: 1,
+        titleColor: text1,
+        bodyColor: text2,
+        titleFont: { family: fontSmall, size: 11 },
+        bodyFont:  { family: fontSmall, size: 11 },
+        padding: 10,
+        cornerRadius: 6
+      }
+    },
+    scales: {
+      x: {
+        grid:  { color: 'rgba(36,48,64,0.6)', lineWidth: 1 },
+        ticks: { color: text3, font: { family: fontSmall, size: 10 } },
+        border: { color: border }
+      },
+      y: {
+        grid:  { color: 'rgba(36,48,64,0.6)', lineWidth: 1 },
+        ticks: { color: text3, font: { family: fontSmall, size: 10 } },
+        border: { color: border }
+      }
+    }
+  };
+
+  // ── ELO Over Time ──────────────────────────────────────────
+  const eloHistory = mmr.data.history.slice().reverse();
+
+  new Chart(charts.elo, {
+    type: 'line',
+    data: {
+      labels: eloHistory.map((_, i) => `G${i + 1}`),
+      datasets: [{
+        label: 'Elo',
+        data: eloHistory.map(g => g.elo),
+        borderColor: cyan,
+        backgroundColor: 'rgba(34,211,238,0.07)',
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: cyan,
+        pointBorderColor: bg,
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      ...baseOptions,
+      scales: {
+        ...baseOptions.scales,
+        y: { ...baseOptions.scales.y, beginAtZero: false }
+      },
+      plugins: {
+        title: {
+          display: true,
+          color: '#f5f7fb',
+          text: 'Rank Rating History'
+        }
+      }
+    }
+  });
+
+  // ── KDA Per Game ───────────────────────────────────────────
+  new Chart(charts.kda, {
+    type: 'bar',
+    data: {
+      labels: games.data.map((_, i) => `G${i + 1}`),
+      datasets: [
+        {
+          label: 'Kills',
+          data: games.data.map(g => g.stats.kills),
+          backgroundColor: 'rgba(52,211,153,0.75)',
+          borderColor: win,
+          borderWidth: 1,
+          borderRadius: 3
+        },
+        {
+          label: 'Deaths',
+          data: games.data.map(g => g.stats.deaths),
+          backgroundColor: 'rgba(248,113,113,0.75)',
+          borderColor: loss,
+          borderWidth: 1,
+          borderRadius: 3
+        },
+        {
+          label: 'Assists',
+          data: games.data.map(g => g.stats.assists),
+          backgroundColor: 'rgba(29,110,245,0.75)',
+          borderColor: blue,
+          borderWidth: 1,
+          borderRadius: 3
+        }
+      ]
+    },
+    options: {
+      ...baseOptions,
+      scales: {
+        ...baseOptions.scales,
+        y: { ...baseOptions.scales.y, beginAtZero: true }
+      },
+      plugins: {
+        title: {
+          display: true,
+          color: '#f5f7fb',
+          text: 'KDA'
+        }
+      }
+    }
+  });
+
+  // ── Shot Distribution ──────────────────────────────────────
+  let head = 0, body = 0, leg = 0;
+  games.data.forEach(g => {
+    head += g.stats.shots.head;
+    body += g.stats.shots.body;
+    leg  += g.stats.shots.leg;
+  });
+
+  new Chart(charts.shots, {
+    type: 'doughnut',
+    data: {
+      labels: ['Headshots', 'Bodyshots', 'Legshots'],
+      datasets: [{
+        data: [head, body, leg],
+        backgroundColor: [
+          'rgba(34,211,238,0.8)',   // cyan  — headshots
+          'rgba(29,110,245,0.8)',   // blue  — bodyshots
+          'rgba(143,163,191,0.8)'   // text-2 — legshots
+        ],
+        borderColor: bg,
+        borderWidth: 3,
+        hoverOffset: 6
+      }]
+    },
+    options: {
+      ...baseOptions,
+      cutout: '65%',
+      scales: {},   // no axes on doughnut
+      plugins: {
+        ...baseOptions.plugins,
+        legend: {
+          ...baseOptions.plugins.legend,
+          position: 'top'
+        },
+        title: {
+          display: true,
+          color: '#f5f7fb',
+          text: 'Shot Distribution'
+        }
+      }
+    }
+  });
 }
 
 //=========================================================
@@ -236,4 +419,27 @@ function createCard(mmrData, gameData, rounds) {
 `;
 
   return div.firstElementChild; // return the actual card
+}
+
+//=================================================================================
+//    Buttons
+//=================================================================================
+
+function changeUser() {
+
+}
+
+function changeKey() {
+
+}
+
+function refreshData() {
+  localStorage.setItem('mmrData', '');
+  localStorage.setItem('gameData', '');
+  location.reload();
+}
+
+function clearData() {
+  localStorage.clear();
+  location.reload();
 }

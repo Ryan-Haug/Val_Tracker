@@ -25,9 +25,10 @@
     </section>
 
     <section>
-      <button>CHANGE USER</button>
-      <button>CHANGE API KEY</button>
-      <button class="warn">CLEAR DATA</button>
+      <button onclick="changeUser()">CHANGE USER</button>
+      <button onclick="changeKey()">CHANGE API KEY</button>
+      <button onclick="refreshData()" class="warn">REFRESH DATA</button>
+      <button onclick="clearData()" class="warn">CLEAR DATA</button>
     </section>
   </header>
 
@@ -74,6 +75,11 @@
 
       <section id="graphs">
         <h3>graphs · ...</h3>
+        <div>
+          <canvas id="eloGraph">loading...</canvas>
+          <canvas id="kdaGraph"></canvas>
+          <canvas id="shotGraph"></canvas>
+        </div>
       </section>
 
       <section id="games">
@@ -94,7 +100,8 @@
     </main>
 
     <footer>
-      <p>hi</p>
+      <p>Please feel free to contribute on github</p>
+      <button>return to top</button>
     </footer>
   </body>
 

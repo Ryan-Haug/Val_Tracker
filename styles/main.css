@@ -106,6 +106,39 @@ h6 {
 }
 
 /* ═══════════════════════════════════════════════
+   Scrollbar
+═══════════════════════════════════════════════ */
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) var(--bg-inner);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-inner);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 4px;
+    border: 2px solid var(--bg-inner);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-3);
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--bg-inner);
+}
+
+/* ═══════════════════════════════════════════════
    Login
 ═══════════════════════════════════════════════ */
 
@@ -315,6 +348,22 @@ aside h2 {
     border-radius: var(--radius);
     padding: 0 1em;
     height: fit-content;
+
+    display: flex;
+    flex-direction: column;
+}
+
+canvas {
+    background-color: var(--bg-raised);
+    padding: 1em;
+
+    border: 2px solid var(--border-dim);
+    border-radius: var(--radius);
+    margin: 1em;
+}
+
+#eloGraph {
+    margin-top: 0;
 }
 
 main section {
@@ -373,6 +422,7 @@ main section:nth-of-type(2) {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    padding: 5px;
 }
 
 .card {
@@ -384,7 +434,7 @@ main section:nth-of-type(2) {
     border: 1px solid var(--border-dim);
     border-radius: var(--radius-2);
 
-    min-height: 200px;
+    min-height: 100px;
     transition: .2s;
 }
 
@@ -494,4 +544,35 @@ main section:nth-of-type(2) {
     border: 2px solid var(--loss);
     background-color: var(--loss-border);
     color: var(--loss);
+}
+
+/* ═══════════════════════════════════════════════
+   footer
+═══════════════════════════════════════════════ */
+
+footer {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    justify-self: center;
+    text-align: center;
+
+    background-color: var(--bg-card);
+    border: 2px solid var(--border-dim);
+    border-top-left-radius: var(--radius-2);
+    border-top-right-radius: var(--radius-2);
+}
+
+footer p {
+    text-align: center;
+    align-self: center;
+}
+
+footer button {
+    height: fit-content;
+    align-self: center;
+}
+
+footer * {
+    margin: 1em;
 }
