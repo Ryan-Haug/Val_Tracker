@@ -1,6 +1,7 @@
 const $ = id => document.getElementById(id);
 const errorPrompt = { cont: $("alert"), head: $("alertHead"), body: $("alertBody") };
 const charts = {elo: $('eloGraph'), kda: $('kdaGraph'), shots: $('shotGraph')};
+const headings = {quickHead: $('qshead'), graphHead: $('graphHead'), gameHead: $('gameHead')};
 
 const quickStats = {qs1: $("qs1"), qs2: $("qs2"), qs3: $("qs3"), qs4: $("qs4"), qs5: $("qs5"),
   qs6: $("qs6"), qs7: $("qs7"), qs8: $("qs8")};
@@ -25,17 +26,25 @@ async function init() {
     window.location.href = '../pages/login.html'
   }
 
-  console.log('[init] fetching games')
+  console.log('[init] fetching games');
   mmr = await fetchMMR();
   games = await fetchGames();
 
   if (!mmr || !games) {
     throw new Error("Failed to fetch games");
   }
+  console.log('[init] games fetched succesfully, loading data');
 
   loadGameCards();
   loadQuickStats();
   loadGraphs();
+
+  console.log('[init] data loaded, finalizing headers');
+  headings.quickHead.textContent = `Quick Stats · (${games.data.length})`;
+  headings.graphHead.textContent = `graphs · (${mmr.data.history.length})`;
+  headings.gameHead.textContent = `Games · (${games.data.length})`;
+
+  console.log('[init] loading completed');
 }
 
 //======================================
