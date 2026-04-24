@@ -1,6 +1,9 @@
 const $ = id => document.getElementById(id);
 const errorPrompt = { cont: $("alert"), head: $("alertHead"), body: $("alertBody") };
+const quickStats = {qs1: $("qs1"), qs2: $("qs2"), qs3: $("qs3"), qs4: $("qs4"), qs5: $("qs5"),
+  qs6: $("qs6"), qs7: $("qs7"), qs8: $("qs8")};
 const cardCont = $("gameCont");
+
 let user, mmr, games, refreshTimer;
 
 //load page
@@ -123,7 +126,62 @@ function loadGameCards() {
 }
 
 function loadQuickStats() {
+  let wins = 0, losses = 0, kills = 0, deaths = 0, assists = 0, totalRounds = 0, rrChanges = [];
+  let currentStreak = 0, maxStreak = 0, streakType = '';
 
+  // Calculate stats from games data
+  for (let i = 0; i < games.data.length; i++) {
+    const mmrData = mmr.data.history[i];
+    const gameData = games.data[i].stats;
+    const roundData = games.data[i].teams;
+
+    // Win/Loss
+    if (mmrData.last_change > 0) {
+      wins++;
+      if (streakType !== 'W') {
+        currentStreak = 1;
+        streakType = 'W';
+      } else {
+        currentStreak++;
+      }
+    } else {
+      losses++;
+      if (streakType !== 'L') {
+        currentStreak = 1;
+        streakType = 'L';
+      } else {
+        currentStreak++;
+      }
+    }
+    if (currentStreak > maxStreak) maxStreak = currentStreak;
+
+    // KDA
+    kills += gameData.kills;
+    deaths += gameData.deaths;
+    assists += gameData.assists;
+
+    // Rounds
+    totalRounds += roundData.red + roundData.blue;
+
+    // RR changes
+    rrChanges.push(mmrData.last_change);
+  }
+
+  const winrate = Math.round((wins / (wins + losses)) * 100);
+  const averageChange = Math.round(rrChanges.reduce((a, b) => a + b, 0) / rrChanges.length);
+  const averageRounds = Math.round(totalRounds / games.data.length);
+  const roundPartic = Math.round(((kills + assists) / totalRounds) * 100);
+  const WLstreak = streakType + maxStreak;
+
+  // Update UI
+  quickStats.qs1.textContent = winrate + '%';
+  quickStats.qs2.textContent = wins + '/' + losses;
+  quickStats.qs3.textContent = kills;
+  quickStats.qs4.textContent = deaths;
+  quickStats.qs5.textContent = (averageChange > 0 ? '+' : '') + averageChange + 'rr';
+  quickStats.qs6.textContent = WLstreak;
+  quickStats.qs7.textContent = averageRounds;
+  quickStats.qs8.textContent = roundPartic + '%';
 }
 
 function loadGraphs() {
