@@ -494,7 +494,7 @@ main section:nth-of-type(2) {
 .cardBody h3 {
     font-family: var(--font-small);
     letter-spacing: 0;
-    font-size:medium
+    font-size: medium;
 }
 
 .cardBody div {
@@ -508,6 +508,10 @@ main section:nth-of-type(2) {
 
 .cardBody div * {
     margin: 10px;
+}
+
+.cardBody div h5 {
+    color: var(--text-3);
 }
 
 .cardBody div p {

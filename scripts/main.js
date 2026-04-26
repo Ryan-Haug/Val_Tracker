@@ -388,13 +388,13 @@ function createCard(mmrData, gameData, rounds) {
   const div = document.createElement("div");
 
   div.innerHTML = `
-    <div class="card ${mmrData.last_change > 0 ? 'win' : 'loss'}">
+    <div class="card ${mmrData.last_change > 0 ? 'win' : mmrData.last_change < 0 ? 'loss' : ''}">
             <div class="cardHeader">
               <div>
                 <h4>${mmrData.map.name} · ${gameData.character.name}</h4>
                 <p>${new Date(mmrData.date).toLocaleString()}</p>
               </div>
-              <p class="RRbadge">${mmrData.last_change > 0 ? 'Win' : 'Loss'}: ${mmrData.last_change}rr</p>
+              <p class="RRbadge">${mmrData.last_change > 0 ? 'win' : mmrData.last_change < 0 ? 'loss' : 'draw'}: ${mmrData.last_change}rr</p>
             </div>
 
             <div class="cardBody">
