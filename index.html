@@ -12,7 +12,7 @@
 
 <body>
   <header>
-    <section>
+    <section id="top">
       <h1>VANDALYTICS</h1>
       <div>
         <h3>TODO rank</h3>
@@ -32,79 +32,76 @@
     </section>
   </header>
 
-  <body>
-    <main>
-      <aside>
-        <h3 id="qshead">Quick Stats · ...</h3>
+  <main>
+    <aside>
+      <h3 id="qshead">Quick Stats · ...</h3>
 
-        <div id="quickStats">
-          <div>
-            <p>Winrate</p>
-            <h3 id="qs1">...</h3>
-          </div>
-          <div>
-            <p>W/L</p>
-            <h3 id="qs2">...</h3>
-          </div>
-          <div>
-            <p>Total Kills</p>
-            <h3 id="qs3">...</h3>
-          </div>
-          <div>
-            <p>Total Deaths</p>
-            <h3 id="qs4">...</h3>
-          </div>
-          <div>
-            <p>Average RR change</p>
-            <h3 id="qs5">...</h3>
-          </div>
-          <div>
-            <p>W/L Streak</p>
-            <h3 id="qs6">...</h3>
-          </div>
-          <div>
-            <p>Average Rounds</p>
-            <h3 id="qs7">...</h3>
-          </div>
-          <div>
-            <p>Round Participation</p>
-            <h3 id="qs8">...</h3>
-          </div>
-        </div>
-      </aside>
-
-      <section id="graphs">
-        <h3 id="graphHead">graphs · ...</h3>
+      <div id="quickStats">
         <div>
-          <canvas id="eloGraph">loading...</canvas>
-          <canvas id="kdaGraph"></canvas>
-          <canvas id="shotGraph"></canvas>
+          <p>Winrate</p>
+          <h3 id="qs1">...</h3>
         </div>
-      </section>
-
-      <section id="games">
-        <h3 id="gameHead">Games · ...</h3>
-
-        <div id="sortButtons">
-          <button>Sort: RR</button>
-          <button>Sort: K/D</button>
-          <button>Sort: HS%</button>
-          <button>wins</button>
-          <button>Losses</button>
+        <div>
+          <p>W/L</p>
+          <h3 id="qs2">...</h3>
         </div>
-
-        <div id="gameCont">
-          <p>Loading...</p>
+        <div>
+          <p>Total Kills</p>
+          <h3 id="qs3">...</h3>
         </div>
-      </section>
-    </main>
+        <div>
+          <p>Total Deaths</p>
+          <h3 id="qs4">...</h3>
+        </div>
+        <div>
+          <p>Average RR change</p>
+          <h3 id="qs5">...</h3>
+        </div>
+        <div>
+          <p>W/L Streak</p>
+          <h3 id="qs6">...</h3>
+        </div>
+        <div>
+          <p>Average Rounds</p>
+          <h3 id="qs7">...</h3>
+        </div>
+        <div>
+          <p>Round Participation</p>
+          <h3 id="qs8">...</h3>
+        </div>
+      </div>
+    </aside>
 
-    <footer>
-      <p>Please feel free to contribute on github</p>
-      <button>return to top</button>
-    </footer>
-  </body>
+    <section id="graphs">
+      <h3 id="graphHead">graphs · ...</h3>
+      <div>
+        <canvas id="eloGraph">loading...</canvas>
+        <canvas id="kdaGraph"></canvas>
+        <canvas id="shotGraph"></canvas>
+      </div>
+    </section>
 
+    <section id="games">
+      <h3 id="gameHead">Games · ...</h3>
+
+      <div id="sortButtons">
+        <button>Sort: RR</button>
+        <button>Sort: K/D</button>
+        <button>Sort: HS%</button>
+        <button>wins</button>
+        <button>Losses</button>
+      </div>
+
+      <div id="gameCont">
+        <p>Loading...</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>You reached the end!</p>
+    <a href="#top">return to top</a>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="./scripts/main.js" defer></script>

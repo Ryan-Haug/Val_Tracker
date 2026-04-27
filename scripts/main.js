@@ -404,7 +404,7 @@ function createCard(mmrData, gameData, rounds) {
               </div>
               <div>
                 <p>Rounds</p>
-                <h3>${rounds[gameData.team == "red" ? "blue" : "red"]}/${rounds[gameData.team == "red" ? "red" : "blue"]}</h3>
+                <h3>${rounds[gameData.team == "red" ? "red" : "blue"]}/${rounds[gameData.team == "red" ? "blue" : "red"]}</h3>
               </div>
               <div>
                 <p>Combat Score</p>
