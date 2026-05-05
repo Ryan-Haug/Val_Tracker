@@ -8,9 +8,13 @@ const quickStats = {qs1: $("qs1"), qs2: $("qs2"), qs3: $("qs3"), qs4: $("qs4"), 
 
 const rankDisplay = {name: $("rankName"), elo: $("rankElo"), rr: $("rankRR")};
 
+const userDisplay = {user: $("userDisplay"), key: $("keyDisplay")};
+
 const cardCont = $("gameCont");
 
 let user, mmr, games, refreshTimer;
+let currentFilter = 'all'; // 'all', 'wins', 'losses'
+let currentSort = 'recent';    // 'recent', 'RR', 'KD', 'HS'
 
 //load page
 init();
@@ -47,6 +51,8 @@ async function init() {
   headings.gameHead.textContent = `Games · (${games.data.length})`;
 
   loadRankDisplay();
+
+  updateUserDisplay();
 
   console.log('[init] loading completed');
 }
@@ -136,9 +142,71 @@ async function fetchGames() {
 
 function loadGameCards() {
   cardCont.innerHTML = '';
+  
+  // Filter games
+  let filteredIndices = [];
   for (let i = 0; i < games.data.length; i++) {
+    if (currentFilter === 'all') {
+      filteredIndices.push(i);
+    } else if (currentFilter === 'wins' && mmr.data.history[i].last_change > 0) {
+      filteredIndices.push(i);
+    } else if (currentFilter === 'losses' && mmr.data.history[i].last_change < 0) {
+      filteredIndices.push(i);
+    }
+  }
+  
+  // Sort filtered games
+  filteredIndices.sort((a, b) => {
+    if (currentSort === 'recent') {
+      return a - b; // Keep original order (most recent first)
+    } else if (currentSort === 'RR') {
+      return mmr.data.history[b].last_change - mmr.data.history[a].last_change;
+    } else if (currentSort === 'KD') {
+      const kdA = games.data[a].stats.kills / (games.data[a].stats.deaths || 1);
+      const kdB = games.data[b].stats.kills / (games.data[b].stats.deaths || 1);
+      return kdB - kdA;
+    } else if (currentSort === 'HS') {
+      const hsA = games.data[a].stats.shots.head / (games.data[a].stats.shots.head + games.data[a].stats.shots.body + games.data[a].stats.shots.leg || 1);
+      const hsB = games.data[b].stats.shots.head / (games.data[b].stats.shots.head + games.data[b].stats.shots.body + games.data[b].stats.shots.leg || 1);
+      return hsB - hsA;
+    }
+  });
+  
+  // Display filtered and sorted games
+  for (let i of filteredIndices) {
     cardCont.appendChild(createCard(mmr.data.history[i], games.data[i].stats, games.data[i].teams));
   }
+  
+  updateButtonStyles();
+}
+
+function setFilter(filter) {
+  if (currentFilter === filter) {
+    currentFilter = 'all'; // Toggle off, revert to all
+  } else {
+    currentFilter = filter;
+  }
+  loadGameCards();
+}
+
+function setSortAndFilter(sort) {
+  if (currentSort === sort) {
+    currentSort = 'recent'; // Toggle off, revert to recent
+  } else {
+    currentSort = sort;
+  }
+  loadGameCards();
+}
+
+function updateButtonStyles() {
+  // Update filter button styles
+  document.getElementById('filterWins').style.opacity = currentFilter === 'wins' ? '1' : '0.5';
+  document.getElementById('filterLosses').style.opacity = currentFilter === 'losses' ? '1' : '0.5';
+  
+  // Update sort button styles (no button highlighted when sort is 'recent')
+  document.getElementById('sortRR').style.opacity = currentSort === 'RR' ? '1' : '0.5';
+  document.getElementById('sortKD').style.opacity = currentSort === 'KD' ? '1' : '0.5';
+  document.getElementById('sortHS').style.opacity = currentSort === 'HS' ? '1' : '0.5';
 }
 
 function loadQuickStats() {
@@ -212,6 +280,11 @@ function loadQuickStats() {
   quickStats.qs6.textContent = WLstreak;
   quickStats.qs7.textContent = averageRounds;
   quickStats.qs8.textContent = roundPartic + '%';
+}
+
+function updateUserDisplay() {
+  userDisplay.user.textContent = `User: ${user.name}#${user.tag}`;
+  userDisplay.key.textContent = `Key: ${user.key.substring(0, 8)}...`;
 }
 
 function loadRankDisplay() {
@@ -494,7 +567,7 @@ function changeUser() {
       localStorage.setItem('tag', newTag);
       user.name = newName;
       user.tag = newTag;
-      location.reload();
+      refreshData();
     }
   );
 }
@@ -521,7 +594,7 @@ function changeKey() {
 
       localStorage.setItem('key', newKey);
       user.key = newKey;
-      location.reload();
+      refreshData();
     }
   );
 }
