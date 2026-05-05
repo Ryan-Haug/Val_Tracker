@@ -28,6 +28,10 @@
     --loss-bg: rgba(248, 113, 113, .08);
     --loss-border: rgba(248, 113, 113, .35);
 
+    --draw: #a3a3a3;
+    --draw-bg: rgba(163, 163, 163, .08);
+    --draw-border: rgba(163, 163, 163, .35);
+
     --font-main: 'Barlow', sans-serif;
     --font-large: 'Barlow Condensed', sans-serif;
     --font-small: 'JetBrains Mono', monospace;
@@ -302,12 +306,25 @@ header .badgeLoss {
     border-radius: var(--radius);
 }
 
+header .badgeDraw {
+    color: var(--draw);
+    background-color: var(--draw-bg);
+
+    padding: .4em .8em;
+    border: 1px solid var(--draw-border);
+    border-radius: var(--radius);
+}
+
 header .badgeWin::before {
     content: "▲";
 }
 
 header .badgeLoss::before {
     content: "▼";
+}
+
+header .badgeDraw::before {
+    content: "─";
 }
 
 /* ═══════════════════════════════════════════════

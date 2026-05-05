@@ -6,6 +6,8 @@ const headings = {quickHead: $('qshead'), graphHead: $('graphHead'), gameHead: $
 const quickStats = {qs1: $("qs1"), qs2: $("qs2"), qs3: $("qs3"), qs4: $("qs4"), qs5: $("qs5"),
   qs6: $("qs6"), qs7: $("qs7"), qs8: $("qs8")};
 
+const rankDisplay = {name: $("rankName"), elo: $("rankElo"), rr: $("rankRR")};
+
 const cardCont = $("gameCont");
 
 let user, mmr, games, refreshTimer;
@@ -43,6 +45,8 @@ async function init() {
   headings.quickHead.textContent = `Quick Stats · (${games.data.length})`;
   headings.graphHead.textContent = `graphs · (${mmr.data.history.length})`;
   headings.gameHead.textContent = `Games · (${games.data.length})`;
+
+  loadRankDisplay();
 
   console.log('[init] loading completed');
 }
@@ -138,34 +142,51 @@ function loadGameCards() {
 }
 
 function loadQuickStats() {
-  let wins = 0, losses = 0, kills = 0, deaths = 0, assists = 0, totalRounds = 0, rrChanges = [];
-  let currentStreak = 0, maxStreak = 0, streakType = '';
+  let wins = 0, losses = 0, draws = 0, kills = 0, deaths = 0, assists = 0, totalRounds = 0, rrChanges = [];
+  let currentStreak = 0, streakType = '';
 
-  // Calculate stats from games data
+  // Calculate streak from most recent game only
+  for (let i = 0; i < games.data.length; i++) {
+    const mmrData = mmr.data.history[i];
+
+    // Win/Loss/Draw
+    let outcome;
+    if (mmrData.last_change > 0) {
+      wins++;
+      outcome = 'Win ';
+    } else if (mmrData.last_change < 0) {
+      losses++;
+      outcome = 'Loss ';
+    } else {
+      draws++;
+      outcome = 'Draw ';
+    }
+
+    // Calculate current streak from most recent game (index 0)
+    if (i === 0) {
+      currentStreak = 1;
+      streakType = outcome;
+    } else if (outcome === streakType) {
+      currentStreak++;
+    } else {
+      break; // Stop counting streak when outcome changes
+    }
+  }
+
+  // Calculate all stats from all 10 games
   for (let i = 0; i < games.data.length; i++) {
     const mmrData = mmr.data.history[i];
     const gameData = games.data[i].stats;
     const roundData = games.data[i].teams;
 
-    // Win/Loss
+    // Win/Loss/Draw counts
     if (mmrData.last_change > 0) {
       wins++;
-      if (streakType !== 'W') {
-        currentStreak = 1;
-        streakType = 'W';
-      } else {
-        currentStreak++;
-      }
-    } else {
+    } else if (mmrData.last_change < 0) {
       losses++;
-      if (streakType !== 'L') {
-        currentStreak = 1;
-        streakType = 'L';
-      } else {
-        currentStreak++;
-      }
+    } else {
+      draws++;
     }
-    if (currentStreak > maxStreak) maxStreak = currentStreak;
 
     // KDA
     kills += gameData.kills;
@@ -179,11 +200,11 @@ function loadQuickStats() {
     rrChanges.push(mmrData.last_change);
   }
 
-  const winrate = Math.round((wins / (wins + losses)) * 100);
+  const winrate = Math.round((wins / (wins + losses + draws)) * 100);
   const averageChange = Math.round(rrChanges.reduce((a, b) => a + b, 0) / rrChanges.length);
   const averageRounds = Math.round(totalRounds / games.data.length);
   const roundPartic = Math.round(((kills + assists) / totalRounds) * 100);
-  const WLstreak = streakType + maxStreak;
+  const WLstreak = streakType + currentStreak;
 
   // Update UI
   quickStats.qs1.textContent = winrate + '%';
@@ -194,6 +215,14 @@ function loadQuickStats() {
   quickStats.qs6.textContent = WLstreak;
   quickStats.qs7.textContent = averageRounds;
   quickStats.qs8.textContent = roundPartic + '%';
+}
+
+function loadRankDisplay() {
+  const currentMMR = mmr.data.history[0]; // Most recent MMR data
+  rankDisplay.name.textContent = currentMMR.tier.name;
+  rankDisplay.elo.textContent = currentMMR.elo + ' ELO';
+  rankDisplay.rr.textContent = (currentMMR.last_change > 0 ? '+' : '') + currentMMR.last_change + 'rr';
+  rankDisplay.rr.className = currentMMR.last_change > 0 ? 'badgeWin' : currentMMR.last_change < 0 ? 'badgeLoss' : 'badgeDraw';
 }
 
 function loadGraphs() {
@@ -292,11 +321,11 @@ function loadGraphs() {
   new Chart(charts.kda, {
     type: 'bar',
     data: {
-      labels: games.data.map((_, i) => `G${i + 1}`),
+      labels: games.data.slice().reverse().map((_, i) => `G${i + 1}`),
       datasets: [
         {
           label: 'Kills',
-          data: games.data.map(g => g.stats.kills),
+          data: games.data.slice().reverse().map(g => g.stats.kills),
           backgroundColor: 'rgba(52,211,153,0.75)',
           borderColor: win,
           borderWidth: 1,
@@ -304,7 +333,7 @@ function loadGraphs() {
         },
         {
           label: 'Deaths',
-          data: games.data.map(g => g.stats.deaths),
+          data: games.data.slice().reverse().map(g => g.stats.deaths),
           backgroundColor: 'rgba(248,113,113,0.75)',
           borderColor: loss,
           borderWidth: 1,
@@ -312,7 +341,7 @@ function loadGraphs() {
         },
         {
           label: 'Assists',
-          data: games.data.map(g => g.stats.assists),
+          data: games.data.slice().reverse().map(g => g.stats.assists),
           backgroundColor: 'rgba(29,110,245,0.75)',
           borderColor: blue,
           borderWidth: 1,
@@ -404,7 +433,7 @@ function createCard(mmrData, gameData, rounds) {
               </div>
               <div>
                 <p>Rounds</p>
-                <h3>${rounds[gameData.team == "red" ? "red" : "blue"]}/${rounds[gameData.team == "red" ? "blue" : "red"]}</h3>
+                <h3>${rounds[gameData.team == "Red" ? "red" : "blue"]}/${rounds[gameData.team == "Red" ? "blue" : "red"]}</h3>
               </div>
               <div>
                 <p>Combat Score</p>
