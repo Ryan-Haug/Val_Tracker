@@ -103,6 +103,24 @@
     <a href="#top">return to top</a>
   </footer>
 
+  <!-- Modal for Prompts and Errors -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Title</h2>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="modalMessage"></p>
+        <div id="modalInputs"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="modalCancel" onclick="closeModal()">Cancel</button>
+        <button id="modalConfirm" class="primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="./scripts/main.js" defer></script>
 </body>

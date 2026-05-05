@@ -145,21 +145,18 @@ function loadQuickStats() {
   let wins = 0, losses = 0, draws = 0, kills = 0, deaths = 0, assists = 0, totalRounds = 0, rrChanges = [];
   let currentStreak = 0, streakType = '';
 
-  // Calculate streak from most recent game only
+  // Calculate streak from most recent game only (index 0 is most recent)
   for (let i = 0; i < games.data.length; i++) {
     const mmrData = mmr.data.history[i];
 
-    // Win/Loss/Draw
+    // Determine outcome
     let outcome;
     if (mmrData.last_change > 0) {
-      wins++;
-      outcome = 'Win ';
+      outcome = 'W';
     } else if (mmrData.last_change < 0) {
-      losses++;
-      outcome = 'Loss ';
+      outcome = 'L';
     } else {
-      draws++;
-      outcome = 'Draw ';
+      outcome = 'D';
     }
 
     // Calculate current streak from most recent game (index 0)
@@ -173,7 +170,7 @@ function loadQuickStats() {
     }
   }
 
-  // Calculate all stats from all 10 games
+  // Calculate all stats from all 10 games (index 0 is most recent)
   for (let i = 0; i < games.data.length; i++) {
     const mmrData = mmr.data.history[i];
     const gameData = games.data[i].stats;
@@ -464,11 +461,69 @@ function createCard(mmrData, gameData, rounds) {
 //=================================================================================
 
 function changeUser() {
+  showModal(
+    'Change User',
+    'Enter your Valorant username and tag',
+    [
+      { type: 'text', id: 'newName', placeholder: 'Username', value: user.name },
+      { type: 'text', id: 'newTag', placeholder: 'Tag (e.g., #1234)', value: user.tag }
+    ],
+    () => {
+      const newName = document.getElementById('newName')?.value.trim();
+      const newTag = document.getElementById('newTag')?.value.trim();
 
+      // Validation
+      if (!newName) {
+        showError('Error', 'Username is required');
+        return;
+      }
+      if (newName.length < 3 || newName.length > 16) {
+        showError('Error', 'Username must be 3-16 characters');
+        return;
+      }
+      if (!newTag) {
+        showError('Error', 'Tag is required');
+        return;
+      }
+      if (newTag.length < 3 || newTag.length > 5) {
+        showError('Error', 'Tag must be 3-5 characters');
+        return;
+      }
+
+      localStorage.setItem('name', newName);
+      localStorage.setItem('tag', newTag);
+      user.name = newName;
+      user.tag = newTag;
+      location.reload();
+    }
+  );
 }
 
 function changeKey() {
+  showModal(
+    'Change API Key',
+    'Enter your Valorant API key',
+    [
+      { type: 'password', id: 'newKey', placeholder: 'API Key (starts with HDEV)', value: user.key }
+    ],
+    () => {
+      const newKey = document.getElementById('newKey')?.value.trim();
 
+      // Validation
+      if (!newKey) {
+        showError('Error', 'API key is required');
+        return;
+      }
+      if (!newKey.startsWith('HDEV')) {
+        showError('Error', 'Invalid API key (must start with HDEV)');
+        return;
+      }
+
+      localStorage.setItem('key', newKey);
+      user.key = newKey;
+      location.reload();
+    }
+  );
 }
 
 function refreshData() {
@@ -480,4 +535,54 @@ function refreshData() {
 function clearData() {
   localStorage.clear();
   location.reload();
+}
+
+//=================================================================================
+//    Modal Functions
+//=================================================================================
+
+function showModal(title, message, inputs = [], onConfirm = null) {
+  const modal = document.getElementById('modal');
+  const titleEl = document.getElementById('modalTitle');
+  const messageEl = document.getElementById('modalMessage');
+  const inputsEl = document.getElementById('modalInputs');
+  const confirmBtn = document.getElementById('modalConfirm');
+
+  titleEl.textContent = title;
+  messageEl.textContent = message;
+  inputsEl.innerHTML = '';
+
+  // Create input fields
+  inputs.forEach(input => {
+    const inputEl = document.createElement('input');
+    inputEl.type = input.type;
+    inputEl.id = input.id;
+    inputEl.placeholder = input.placeholder;
+    inputEl.value = input.value || '';
+    inputEl.className = 'modal-input';
+    inputsEl.appendChild(inputEl);
+  });
+
+  // Set confirm handler
+  confirmBtn.onclick = () => {
+    if (onConfirm) onConfirm();
+    closeModal();
+  };
+
+  modal.classList.remove('hidden');
+}
+
+function showError(title, message) {
+  showModal(title, message, [], null);
+  document.getElementById('modalCancel').style.display = 'none';
+  document.getElementById('modalConfirm').textContent = 'OK';
+  document.getElementById('modalConfirm').onclick = closeModal;
+}
+
+function closeModal() {
+  const modal = document.getElementById('modal');
+  modal.classList.add('hidden');
+  document.getElementById('modalInputs').innerHTML = '';
+  document.getElementById('modalCancel').style.display = '';
+  document.getElementById('modalConfirm').textContent = 'Confirm';
 }
